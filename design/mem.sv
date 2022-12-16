@@ -48,6 +48,7 @@ module mem
 
    output logic [155:0] iccm_rd_data,
 `endif
+
    // Icache and Itag Ports
 `ifdef RV_ICACHE_ENABLE //temp
    input  logic [31:2]  ic_rw_addr,
@@ -86,6 +87,44 @@ module mem
    output logic [3:0]   ic_rd_hit,
    output logic         ic_tag_perr,        // Icache Tag parity error
 
+   // Dcache and Dtag Ports
+`ifdef RV_DCACHE_ENABLE //temp
+   input  logic [31:2]  dc_rw_addr,
+   input  logic [3:0]   dc_tag_valid,
+   input  logic [3:0]   dc_wr_en,
+   input  logic         dc_rd_en,
+   input  logic [127:0] dc_premux_data,     // Premux data to be muxed with each way of the Dcache.
+   input  logic         dc_sel_premux_data, // Premux data sel
+
+`ifdef RV_DCACHE_ECC
+   input  logic [83:0]               dc_wr_data,         // Data to fill to the Dcache. With ECC
+   input  logic [41:0]               dc_debug_wr_data,   // Debug wr cache.
+`else
+   input  logic [67:0]               dc_wr_data,         // Data to fill to the Dcache. With Parity
+   input  logic [33:0]               dc_debug_wr_data,   // Debug wr cache.
+`endif
+
+
+
+   input  logic [15:2]               dc_debug_addr,      // Read/Write addresss to the Dcache.
+   input  logic                      dc_debug_rd_en,     // Dcache debug rd
+   input  logic                      dc_debug_wr_en,     // Dcache debug wr
+   input  logic                      dc_debug_tag_array, // Debug tag array
+   input  logic [3:0]                dc_debug_way,       // Debug way. Rd or Wr.
+
+`endif
+
+`ifdef RV_DCACHE_ECC
+   output logic [167:0]              dc_rd_data ,        // Data read from Dcache. 2x64bits + parity bits. F2 stage. With ECC
+   output logic [24:0]               dctag_debug_rd_data,// Debug dcache tag.
+`else
+   output logic [135:0]              dc_rd_data ,        // Data read from Dcache. 2x64bits + parity bits. F2 stage. With Parity
+   output logic [20:0]               dctag_debug_rd_data,// Debug dcache tag.
+`endif
+
+   output logic [3:0]   dc_rd_hit,
+   output logic         dc_tag_perr,        // Dcache Tag parity error
+
 
    input  logic         scan_mode
 
@@ -122,6 +161,19 @@ module mem
    assign   ic_tag_perr    = '0 ;
    assign   ic_rd_data  = '0 ;
    assign   ictag_debug_rd_data  = '0 ;
+`endif
+
+`ifdef RV_DCACHE_ENABLE
+   lsu_dc_mem dcm  (
+      // NOTE: forget about clock override until everything else is working.
+      .clk_override('0),
+      .*
+   );
+`else
+   assign   dc_rd_hit[3:0] = '0;
+   assign   dc_tag_perr    = '0 ;
+   assign   dc_rd_data  = '0 ;
+   assign   dctag_debug_rd_data  = '0 ;
 `endif
 
 `ifdef RV_ICCM_ENABLE

@@ -53,6 +53,14 @@ typedef struct packed {
                        } icache_err_pkt_t;
 
 typedef struct packed {
+`ifdef RV_DCACHE_ECC
+                       logic [39:0] ecc;
+`else
+                       logic [7:0] parity;
+`endif
+                       } dcache_err_pkt_t;
+
+typedef struct packed {
                        logic valid;
                        logic wb;
                        logic [`RV_LSU_NUM_NBLOAD_WIDTH-1:0] tag;

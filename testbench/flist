@@ -32,6 +32,7 @@ $RV_ROOT/design/lsu/lsu_bus_intf.sv
 $RV_ROOT/design/lsu/lsu_ecc.sv
 $RV_ROOT/design/lsu/lsu_dccm_mem.sv
 $RV_ROOT/design/lsu/lsu_dccm_ctl.sv
+$RV_ROOT/design/lsu/lsu_dc_mem.sv
 $RV_ROOT/design/lsu/lsu_trigger.sv
 $RV_ROOT/design/dbg/dbg.sv
 $RV_ROOT/design/dmi/dmi_wrapper.v

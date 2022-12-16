@@ -42,6 +42,11 @@ localparam ICACHE_TAG_LOW   = `RV_ICACHE_TAG_LOW;
 localparam ICACHE_IC_DEPTH  = `RV_ICACHE_IC_DEPTH;
 localparam ICACHE_TAG_DEPTH = `RV_ICACHE_TAG_DEPTH;
 
+localparam DCACHE_TAG_HIGH  = `RV_DCACHE_TAG_HIGH;
+localparam DCACHE_TAG_LOW   = `RV_DCACHE_TAG_LOW;
+localparam DCACHE_DC_DEPTH  = `RV_DCACHE_DC_DEPTH;
+localparam DCACHE_TAG_DEPTH = `RV_DCACHE_TAG_DEPTH;
+
 localparam LSU_BUS_TAG     = `RV_LSU_BUS_TAG;
 localparam DMA_BUS_TAG     = `RV_DMA_BUS_TAG;
 localparam SB_BUS_TAG      = `RV_SB_BUS_TAG;

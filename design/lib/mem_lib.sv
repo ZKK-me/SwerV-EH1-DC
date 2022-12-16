@@ -274,7 +274,7 @@ module ram_256x39
 
 
 
-endmodule // ram_512x39
+endmodule // ram_256x39
 
 
 module ram_128x39
